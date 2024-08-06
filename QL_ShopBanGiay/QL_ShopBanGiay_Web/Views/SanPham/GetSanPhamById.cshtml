@@ -1,0 +1,189 @@
+﻿@model IEnumerable<QL_ShopBanGiay_Web.ViewModels.SanPhamVM>
+@{var lst = ViewData["SimilarProduct"] as List<QL_ShopBanGiay_Web.ViewModels.SanPhamVM>; }
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="~/Content/Css/product_details.css">
+}
+
+@foreach (var item in Model)
+{
+    <section class="products" id="product-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-12">
+                    <div class="product-details-left">
+                        <div class="product-image-container">
+                            <img id="product-image" src="/Content/Images/@item.SanPham.AnhSP" alt="">
+                        </div>
+                        <div class="list-product-image-compact">
+                            <div class="product-image-compact">
+                                <img src="/Content/Images/@item.SanPham.AnhSP" onclick="changeImage('/Content/Images/@item.SanPham.AnhSP')" alt="Image 1">
+                            </div>
+                            <div class="product-image-compact">
+                                <img src="/Content/Images/@item.SanPham.AnhSPChiTiet1" onclick="changeImage('/Content/Images/@item.SanPham.AnhSPChiTiet1')" alt="Image 2">
+                            </div>
+                            <div class="product-image-compact">
+                                <img src="/Content/Images/@item.SanPham.AnhSPChiTiet2" onclick="changeImage('/Content/Images/@item.SanPham.AnhSPChiTiet2')" alt="Image 3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="product-details-right">
+                        <h1 class="title-product">@item.SanPham.TenSanPham</h1>
+                        <div class="price">
+                            <div class="price">@string.Format("{0:N0}", item.Gia) đ</div>
+                            <div class="cut">@string.Format("{0:N0}", item.SanPham.GiaBan) đ</div>
+                            <div class="offer">@item.SanPham.GiamGia% off</div>
+                        </div>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(@item.SanPham.SoLuongDanhGia)</span>
+                        </div>
+                        <div class="size-container">
+                            <label for="size">Chọn kích thước:</label>
+                            <select id="size">
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        <div class="button_actions">
+                            <button type="submit" class="btn btn_base btn_add_cart btn-cart add_to_cart product-cart" data-product-id="@item.SanPham.IdSanPham">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="text_1">Thêm vào giỏ hàng</span>
+                            </button>
+                        </div>
+                        <ul class="tabs-title col-lg-12">
+                            <li class="tab-link current" data-tab="tab-1">
+                                <h3><span>Thông tin sản phẩm</span></h3>
+                            </li>
+                            <li class="tab-link" data-tab="tab-2">
+                                <h3><span>Chi Tiết Sản Phẩm</span></h3>
+                            </li>
+                            <li class="tab-link" data-tab="tab-3">
+                                <h3><span>Thanh toán vận chuyển</span></h3>
+                            </li>
+                        </ul>
+                        <div class="tab-float col-lg-12">
+                            <div id="tab-1" class="tab-content" style="display: block;">
+                                <div id="product-content" class="product-content">
+                                    <p style="text-align: justify; font-size: 1.8rem;">
+                                        @Html.Raw(item.SanPham.NoiDungSanPham.Replace("\\n", "<br>"))
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-content">
+                                <div id="product-reviews" class="product-reviews">
+                                    <p style="text-align: justify; font-size: 1.8rem;">
+                                        @Html.Raw(item.SanPham.DanhGiaSanPham.Replace("\\n", "<br>"))
+
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="tab-3" class="tab-content">
+                                <div id="payment-shipping" class="payment-shipping">
+                                    <p style="text-align: justify; font-size: 1.8rem;">
+                                        @Html.Raw(item.SanPham.ThanhToanVanChuyen.Replace("\\n", "<br>"))
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <h1 class="heading">Bạn có thể <span>Thích</span></h1>
+                <div class="slide-container swiper">
+                    <div class="slide-content">
+                        <div class="swiper-wrapper" id="similar-product-list">
+
+                            @foreach (var item2 in lst)
+                            {
+                                <div class="col-12 col-md-6 col-lg-3 box swiper-slide">
+                                    <div class="icons">
+                                        <a href="javascript:void(0)" class="fas fa-shopping-cart product-cart" data-product-id="@item2.SanPham.IdSanPham"></a>
+                                        <a href="javascript:void(0)" class="fas fa-heart favorites-product" data-product-id="@item2.SanPham.IdSanPham"></a>
+                                        <a href="@Url.Action("GetSanPhamById","SanPham", new { id = item2.SanPham.IdSanPham})" class="fas fa-eye"></a>
+                                    </div>
+                                    <div class="image">
+                                        <img src="~/Content/Images/@item2.SanPham.AnhSP">
+                                    </div>
+                                    <div class="content">
+                                        <h3 class="title-name"><a href="@Url.Action("GetSanPhamById","SanPham", new { id = item2.SanPham.IdSanPham})">@item2.SanPham.TenSanPham</a></h3>
+                                        <div class="box-price">
+                                            <div class="price">@string.Format("{0:N0}", item2.SanPham.GiaBan)đ</div>
+                                            <div class="cut">@string.Format("{0:N0}", item2.Gia)đ</div>
+                                            <div class="offer">@item2.SanPham.GiamGia% off</div>
+                                        </div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <span>@item2.SanPham.SoLuongDanhGia</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="swiper-button-next swiper-navBtn"></div>
+                    <div class="swiper-button-prev swiper-navBtn"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".slide-content", {
+        slidesPerView: 4,
+        spaceBetween: 45,
+        loop: true,
+        centerSlide: true,
+        centeredSlidesBounds: true,
+        fade: true,
+        grabCursor: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+            dynamicBullets: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+
+        breakpoints: {
+            0: {
+                slidesPerView: 1,
+            },
+            520: {
+                slidesPerView: 2,
+            },
+            950: {
+                slidesPerView: 3,
+            },
+            1200: {
+                slidesPerView: 4,
+            },
+        },
+    });
+
+</script>
+
+

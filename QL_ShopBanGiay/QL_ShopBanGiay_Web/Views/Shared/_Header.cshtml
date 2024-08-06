@@ -1,0 +1,72 @@
+﻿<!-- Header section starts -->
+
+<header class="header">
+    <a href="/" class="logo"> <img src="~/Content/Images/logo.jpg" width="180" height="42"/> </a>
+    <nav class="navbar" style="padding-left: 26rem;">
+        <ul>
+            @*<li><a href="/">home <i class="fas fa-chevron-up"></i></a></li>*@
+            <li>
+                <a href="#products">sản phẩm <i class="fas fa-chevron-up"></i></a>
+                <ul>
+                    @Html.Action("LoaiSanPhamPartial", "LoaiSanPham")
+                </ul>
+            </li>
+            @*<li><a href="@Url.Action("SanPhamNoiBat","SanPham",new { page = 1})">nổi bật</a></li>*@
+            <li>
+                <a href="#">Bộ sưu tập <i class="fas fa-chevron-up"></i></a>
+                <ul>
+                    <li><a href="">Zoe Wabi Sabi</a></li>
+                    <li><a href="">Summer 2023</a></li>
+                    <li><a href="">Zoe Craft</a></li>
+                    <li><a href="">Back to school</a></li>
+
+                </ul>
+                
+            </li>
+            <li><a href="#contact">Cửa hàng <i class="fas fa-chevron-up"></i></a></li>
+            <li><a href="#">BLOG <i class="fas fa-chevron-up"></i></a></li>
+        </ul>
+    </nav>
+    <div class="icons">
+        <div id="menu-btn" class="fas fa-bars"></div>
+        <div id="user-btn" class="fas fa-user">
+        </div>
+        <div id="search-btn" class="fas fa-search"></div>
+        <div id="shopping-cart-btn" class="fas fa-shopping-cart">
+            @Html.Action("SoLuongPartial", "ShoppingCart")
+        </div>
+
+    </div>
+    @using (Html.BeginForm("SearchSanPhamByName", "SanPham", FormMethod.Post, new { @class = "search-form" }))
+    {
+        <input type="search" name="searchValue" placeholder="search here..." id="search-box" value="@ViewBag.SearchValue">
+        <div  id="start-recognition" class="fas"><i style="" class="fa-solid fa-microphone"></i></div>
+        <button type="submit" for="search-box" class="fas fa-search"></button>
+    }
+
+
+
+    <div class="user-box" style="display:none">
+        <div class="user-details">
+            <div class="image-user">
+                <img src="~/Content/Images/user.jpg" alt="Avatar" class="avatar">
+            </div>
+            <div class="user-infor">
+                <h2 class="user-name">@Html.Action("RoleAndNamePartial", "Account")</h2>
+                <p class="user-email">customer1@gmail.com</p>
+                <p class="user-rank">Rank: Vip</p>
+            </div>
+        </div>
+        <div class="logout-box">
+            <a class="user-information">Thông tin người dùng</a>
+            <button type="button" id="logoutButton" class="logout-button" href="">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Đăng xuất</span>
+            </button>
+        </div>
+    </div>
+    @Html.Action("GioHangPartial", "ShoppingCart")
+    
+</header>
+
+<!-- Header section ends -->

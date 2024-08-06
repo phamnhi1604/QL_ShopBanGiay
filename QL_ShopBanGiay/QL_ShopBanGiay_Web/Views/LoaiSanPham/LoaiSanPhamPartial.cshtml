@@ -1,0 +1,13 @@
+﻿@model IEnumerable<QL_ShopBanGiay_Web.Models.LoaiSanPhamCha>
+@foreach (var item in Model)
+{<li>
+        <a href="@Url.Action("GetDsSanPhamByTenLoaiSpCha","SanPham")/?tenLoaiSpCha=@item.TenLoaiSPCha&page=1">@item.TenLoaiSPCha</a>
+        <ul>
+            @{var lst = ViewData[item.IdLoaiSPCha.ToString()] as List<QL_ShopBanGiay_Web.Models.LoaiSanPham>;}
+                @foreach (var item2 in lst)
+                {
+                    <li><a href="@Url.Action("GetDsSanPhamByLoaiSp","SanPham")?tenLoaiSp=@item2.TenLoaiSP&page=1">@item2.TenLoaiSP</a></li>
+                }
+        </ul>
+ </li>
+}

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<QL_ShopBanGiay_Web.ViewModels.ShoppingCartVM>
+
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="~/Content/Css/GioHang.css" />
+}
+
+
+ 
+<div class="cart-container">
+    <h2 style="margin-top:100px; ">GIỎ HÀNG CỦA BẠN</h2>
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="cart-row">
+
+                <div class="image">
+                    <img src="~/Content/Images/@item.AnhSP" alt="">
+                </div>
+                <div class="item-description">
+                    <a href="@Url.Action("GetSanPhamById","SanPham", new { id = item.IdSanPham})" class="title-name">@item.TenSanPham</a>
+                    <p class="title-amount">
+                        Số lượng:
+                        <input class="quantityInput"
+                               type="number"
+                               value="@item.SoLuong"
+                               min="1"
+                               style="width: 30%;"
+                               data-product-id="@item.IdSanPham" />
+                    </p>
+                </div>
+                <div class="right">
+                    <p class="price">@string.Format("{0:N0}", item.Gia) đ</p>
+                    <button class="remove-cart" data-product-id="@item.IdSanPham">
+                        <img src="https://raw.githubusercontent.com/anhvu13/fashion.github.io/main/remove.png" alt="remove">
+                    </button>
+                </div>
+            </div>
+        </li>
+
+    }
+</div>

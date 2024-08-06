@@ -1,0 +1,36 @@
+﻿@model QL_ShopBanGiay_Web.ViewModels.LoginUserVM
+
+@{
+    ViewBag.Title = "Login1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="account">
+    <form method="post" id="loginForm">
+        @Html.AntiForgeryToken()
+
+
+        <h1 style="letter-spacing: 6px; margin-bottom:10px;font-family: SVN-Proxima, Helvetica, Arial, sans-serif; font-weight: 500;">ĐĂNG NHẬP</h1>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên tài khoản", @id = "signin-username" } })
+        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+
+        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mật khẩu", @id = "signin-password" } })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        
+        <div class="" style="display:flex">
+
+            <button type="button" id="btnLoginSubmit">Đăng nhập</button>
+            <div style="display: flex; flex-direction: column">
+                <a class="hover-login" href="#">Quên mật khẩu?</a>
+                <div class="hover-login" display: flex; align-items: center;">
+                    <label style="margin-right: 6px; color: #959898; font-weight: 500;font-size:13px ">hoặc</label> 
+                    @Html.ActionLink("Đăng ký", "Register1")
+                </div> 
+            </div>
+            
+        </div>
+        
+    </form>
+</div>
+

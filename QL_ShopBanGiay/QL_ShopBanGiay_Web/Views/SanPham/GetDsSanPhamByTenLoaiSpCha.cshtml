@@ -1,0 +1,74 @@
+﻿@model IEnumerable<QL_ShopBanGiay_Web.ViewModels.SanPhamVM>
+
+@{
+    ViewBag.Title = "Danh sách sản phẩm đồ "+ @ViewBag.TenLoaiSpCha;
+}
+<section class="products outstanding-products" id="products">
+    <h1 class="heading">Danh sách sản phẩm thuộc loại: <span>đồ @ViewBag.TenLoaiSpCha</span></h1>
+    <div class="container" id="product-list">
+        @{
+            foreach (var item in Model)
+            {
+                <div class="col-12 col-md-6 col-lg-3 box">
+                    <div class="icons">
+                        <a href="javascript:void(0)" class="fas fa-shopping-cart product-cart" data-product-id="@item.SanPham.IdSanPham"></a>
+                        <a href="javascript:void(0)" class="fas fa-heart favorites-product" data-product-id="@item.SanPham.IdSanPham"></a>
+                        <a href="@Url.Action("GetSanPhamById","SanPham", new { id = item.SanPham.IdSanPham})" class="fas fa-eye"></a>
+                    </div>
+                    <div class="image">
+                        <img src="~/Content/Images/@item.SanPham.AnhSP">
+                    </div>
+                    <div class="content">
+                        <h3 class="title-name"><a href="@Url.Action("GetSanPhamById","SanPham", new { id = item.SanPham.IdSanPham})">@item.SanPham.TenSanPham</a></h3>
+                        <div class="box-price">
+                            <div class="price">@string.Format("{0:N0}", item.SanPham.GiaBan)đ</div>
+                            <div class="cut">@string.Format("{0:N0}", item.Gia)đ</div>
+                            <div class="offer">@item.SanPham.GiamGia% off</div>
+                        </div>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>@item.SanPham.SoLuongDanhGia</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="break-page">
+        @{
+            int PrevPage = ViewBag.Page - 1;
+            if (PrevPage <= 0)
+            {
+                PrevPage = 1;
+            }
+            int NextPage = ViewBag.Page + 1;
+            if (NextPage >= ViewBag.NoOfPages)
+            {
+                NextPage = ViewBag.NoOfPages;
+            }
+        }
+        <div><a class="buttons prev-button" href="@Url.Action("SanPhamNoiBat","SanPham")/?page=@PrevPage">&lt;&lt;</a></div>
+        @for (int i = 0; i < ViewBag.NoOfPages; i++)
+        {
+            if (i + 1 == ViewBag.Page)
+            {
+                <div>
+                    <a href="@Url.Action("SanPhamNoiBat","SanPham")/?page=@(i+1)" class="buttons active">@(i+1)</a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a href="@Url.Action("SanPhamNoiBat","SanPham")/?page=@(i+1)" class="buttons">@(i+1)</a>
+                </div>
+            }
+        }
+        <div><a class="buttons next-button" href="@Url.Action("SanPhamNoiBat","SanPham")/?page=@NextPage">&gt;&gt;</a></div>
+    </div>
+</section>
+
+

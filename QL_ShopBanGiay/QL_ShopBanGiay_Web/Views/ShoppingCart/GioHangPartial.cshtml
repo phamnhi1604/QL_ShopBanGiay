@@ -1,0 +1,38 @@
+﻿@model List<QL_ShopBanGiay_Web.ViewModels.ShoppingCartVM>
+
+<ul class="product-cart-box" id="cart-box" style="display: none;">
+    <li>
+        <h1 class="title-product-cart">Giỏ Hàng</h1>
+    </li>
+    @foreach (var item in Model)
+    {
+<li>
+    <div class="image">
+        <img src="~/Content/Images/@item.AnhSP" alt="">
+    </div>
+    <div class="item-description">
+        <a href="@Url.Action("GetSanPhamById","SanPham", new { id = item.IdSanPham})" class="title-name">@item.TenSanPham</a>
+        <p class="title-amount">
+            Số lượng:
+            <input class="quantityInput"
+                   type="number"
+                   value="@item.SoLuong"
+                   min="1"
+                   style="width: 30%;"
+                   data-product-id="@item.IdSanPham" />
+        </p>
+    </div>
+    <div class="right">
+        <p class="price">@string.Format("{0:N0}", item.Gia) đ</p>
+        <button class="remove-cart" data-product-id="@item.IdSanPham">
+            <img src="https://raw.githubusercontent.com/anhvu13/fashion.github.io/main/remove.png" alt="remove">
+        </button>
+    </div>
+</li>}
+    <span style="width:100%; display:flex; justify-content:space-between; margin-bottom:15px" class="total"><label style="color: #717171">Tổng tiền:</label> <strong style="">@string.Format("{0:N0}", ViewBag.TongThanhTien)đ</strong></span>
+    <li style="display: flex; justify-content: space-between; margin:10px ">
+        
+        <button class="checkout btn cart-btn" id="cartbtn">Xem giỏ hàng</button>
+        <button class="checkout btn checkout-btn" id="checkout">Thanh toán</button>
+    </li>
+</ul>

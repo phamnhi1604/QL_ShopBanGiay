@@ -1,0 +1,133 @@
+﻿@model List<QL_ShopBanGiay_Web.ViewModels.ShoppingCartVM>
+@{
+    ViewBag.Title = "Thanh Toán";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/Content/Css/checkout.css">
+}
+<section class="product-list-in-cart container">
+    @if (Model.Count > 0)
+    {
+        <h2 class="text-center text-uppercase" style="font-size: 3rem;">Danh sách giỏ hàng</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Mã sản phẩm</th>
+                    <th scope="col">Sản phẩm</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Thành tiền</th>
+                    <th scope="col">Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 1;}
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.IdSanPham</td>
+                        <td>@item.TenSanPham</td>
+                        <td>@string.Format("{0:N0}", item.Gia) đ</td>
+
+                        <td>
+                            <input class="quantityInput" type="number" min="1" value="@item.SoLuong" data-product-id="@item.IdSanPham">
+                        </td>
+                        <td>@string.Format("{0:N0}", item.ThanhTien()) đ</td>
+                        <td><button class="remove" data-product-id="@item.IdSanPham"><img src="https://raw.githubusercontent.com/anhvu13/fashion.github.io/main/remove.png" alt="remove"></button></td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4"><strong>Tổng cộng:</strong></td>
+                    <td>@ViewBag.TongSoLuong</td>
+                    <td><b class="total-price">@string.Format("{0:N0}", ViewBag.TongThanhTien) đ</b></td>
+                    <td>
+                        <a href="#" class="deleteAll">Xóa Tất Cả</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="checkout-div">
+            <button class="btn" id="btn-checkout">Thanh toán</button>
+        </div>
+    }
+    else
+    {
+        <h2 class="text-center text-uppercase" style="font-size: 3rem;">Chưa có sản phẩm nào trong giỏ hàng</h2>
+        <h3><a href="@Url.Action("Index","Home")" class="text-center text-capitalize">Tiếp tục mua hàng</a></h3>
+    }
+</section>
+<div class="checkout-box">
+    <div class="close-checkout-box-btn">×</div>
+    <div class="container" id="container">
+        <form id="checkout-form">
+            <div class="row">
+                <div class="col-6">
+                    <div class="list-product-cart">
+                        <ul class="payment-product-list">
+                            @foreach (var item in Model)
+                            {
+                                <li>
+                                    <div class="image">
+                                        <img src="~/Content/Images/@item.AnhSP" alt="">
+                                    </div><div class="item-description">
+                                        <a href="javascript:void(0)" class="title-name">@item.TenSanPham</a>
+                                        <p class="title-amount">Số lượng: <span class="amount">@item.SoLuong</span></p>
+                                    </div>
+                                    <div class="right">
+                                        <p class="price">@string.Format("{0:N0}",item.Gia)</p>
+                                    </div>
+                                </li>
+                            }                           
+                        </ul>
+                    </div>
+                    <ul class="payment-product-list">
+                        <li style="display: grid; grid-template-columns: 1fr auto;">
+                            <span style="float: left;">Tổng thanh toán: </span>
+                            <span class="total">@string.Format("{0:N0}", ViewBag.TongThanhTien) đ</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="phone-number">Số điện thoại</label>
+                            <input type="tel" class="form-control" id="phone-number" name="soDienThoai" required="" pattern="[0-9]{10}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="delivery-address">Địa chỉ</label>
+                            <textarea name="diaChi" id="delivery-address"" cols="10" rows="4" class="form-control" style="font-size: 16px;"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="mode-of-payment">Phương thức thanh toán</label>
+                            <select class="form-control" id="mode-of-payment" required="" name="ptThanhToan">
+                                <option value="">Chọn phương thức thanh toán</option>
+                                <option value="Tiền mặt">Tiền mặt</option>
+                                <option value="Trực tuyến">Trực tuyến</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-details">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-top: 1rem;">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-primary" style="width: 20%; margin: auto;">Thanh toán giỏ hàng</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

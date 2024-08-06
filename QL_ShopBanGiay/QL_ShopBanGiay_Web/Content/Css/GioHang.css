@@ -1,0 +1,24 @@
+*{
+    font-size:1.5rem;
+}
+.cart-container {
+    list-style:none;
+    margin: auto;
+    /*vertical-align: central;*/
+    width: 70%;
+    text-align:center;
+}
+.image {
+    height: 15rem;
+    width:20rem;
+}
+.image img{
+    height:inherit;
+}
+.cart-row{
+    display:flex;
+}
+
+.item-description{
+    text-align:left;
+}
